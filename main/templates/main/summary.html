@@ -1,0 +1,21 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+   {{ title }}
+{% endblock %}
+
+{% block content %}
+  <h1><b>Ваши резюме</b></h1> <!--для вывода из views нужно использовать цикл for и тегом <div> с классом -->
+    {% if summaries %}
+        {% for el in summaries %}
+            <div class="alert alert-warning mt-2">
+                <h2>{{ el.proffesion }}</h2>
+                <h3>{{ el.salary }}</h3>
+                <h5>{{ el.currency }}</h5>
+                <h2>{{ el.description }}</h2>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>У вас нету резюме</p>
+    {% endif %}
+{% endblock %}
