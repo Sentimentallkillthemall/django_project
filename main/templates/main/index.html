@@ -8,14 +8,19 @@
   <h1><b>Свободные вакансии</b></h1> <!--для вывода из views нужно использовать цикл for и тегом <div> с классом -->
     {% if vacancies %}
         {% for el in vacancies %}
-            <div class="alert alert-warning mt-2">
-                <h2>{{ el.title }}</h2>
-                <h3>{{ el.salary }}</h3>
-                <h5>{{ el.currency }}</h5>
-                <h2>{{ el.description }}</h2>
-            </div>
+    <div class="alert alert-warning mt-2">
+        <h2>{{ el.title }}</h2>
+        <h3>{{ el.salary }}</h3>
+        <h5>{{ el.currency }}</h5>
+        <h2>{{ el.description }}</h2>
+        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'update-vacancy' vacancy_id=el.id %}"><b>Изменить</b></a>
+        <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'delete-vacancy' vacancy_id=el.id %}"><b>Удалить</b></a>
+    </div>
         {% endfor %}
     {% else %}
         <p>У нас нету свободных вакансий</p>
     {% endif %}
 {% endblock %}
+
+
+

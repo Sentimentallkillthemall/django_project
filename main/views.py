@@ -1,25 +1,68 @@
 # ТУТ МЫ БУДЕМ ПОКАЗЫВАТЬ КАКОЙ ЛИБО HTML ШАБЛОН ПРИ ПЕРЕХОДЕ НА НОВУЮ СТРАНИЦУ (ЕСЛИ ПОЛЬЗОВАТЕЛЬ ПЕРЕШЕЛ НА ГЛАУНЮ СТРАНИЦУ ТО МЫ ПОКАЖЕМ ЕМУ ТАКОЙ ТО ШАБЛОН)
 from django.shortcuts import render, redirect
-from django.views.generic import DetailView, UpdateView
+from django.views.generic import DetailView, UpdateView, DeleteView
 from .models import Vacancy, Summary
 from .forms import SummaryForm, VacancyForm
 def index(request):
     vacancies = Vacancy.objects.all()
     return render(request, 'main/index.html', {'title': 'Вакансии', 'vacancies': vacancies})
 
-def VacancyUpdate(UpdateView):
-    model = Vacancy
-    template_name = 'main/create.html'
-    fields = ['title', 'salary', 'currency', 'description']
+def update_vacancy(request, vacancy_id):
+    error = ''
+    vacancy_to_edit = Vacancy.objects.get(id=vacancy_id)
+    if request.method == 'POST':
+        form = VacancyForm(request.POST, instance=vacancy_to_edit)
+        if vacancy_to_edit.author and request.user.id == vacancy_to_edit.author.id:
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.author = request.user
+                post.save()
+                return redirect('home')
+            else:
+                error = 'Форма была неверной'
+        else:
+            error = 'Вы не можете изменить эту вакансию, так как вы не её автор'
+    else:
+        form = VacancyForm(instance=vacancy_to_edit)
+    context = {
+        'form': form,
+        'error': error
+    }
+    return render(request, 'main/update_vacancy.html', context)
+
+def delete_vacancy(requset, vacancy_id):
+    error = ''
+    vacancy_to_delete = Vacancy.objects.get(id=vacancy_id)
+    vacancy_to_delete.delete()
+    form = VacancyForm(instance=vacancy_to_delete)
+    context = {
+        'form': form,
+        'error': error
+    }
+    return render( 'delete_vacancy.html', context)
+    # if request.method == 'POST':
+    #     form = VacancyForm(request.POST, instance=vacancy_to_delete)
+    #     if vacancy_to_delete.author and request.user.id == vacancy_to_delete.author.id:
+    #         if form.is_valid():
+    #             post = form.save(commit=False)
+    #             post.author = request.user
+    #             post.save()
+    #             return redirect('home')
+    #         else:
+    #             error = 'Форма была неверной'
+    #     else:
+    #         error = 'Вы не можете удалить эту вакансию, так как вы не её автор'
+    # else:
+    #     form = VacancyForm(instance=vacancy_to_delete)
+    # context = {
+    #     'form': form,
+    #     'error': error
+    # }
+    # return render(request, 'main/delete_vacancy.html', context)
 
 def summary_list(request):
     summaries = Summary.objects.all()
     return render(request, 'main/summary.html', {'title': 'Резюме', 'summaries': summaries})
-
-
-
-def about(request):
-    return render(request, 'main/about.html')
 
 def create_vacancy(request):#не пон
     error = ''
