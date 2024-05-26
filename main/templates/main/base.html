@@ -25,6 +25,7 @@
               <form action="{% url 'logout' %}" method="post" class="form-inline">
                   {% csrf_token %}
                   <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'create' %}"><b>Создать вакансию</b></a>
+                  <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'create-summary' %}"><b>Создать резюме</b></a>
                   <button type="submit" class="me-3 py-2 link-body-emphasis text-decoration-none" style="display: inline; border: none; background: none; box-shadow: none;"><b>Выйти</b></button>
               </form>
 

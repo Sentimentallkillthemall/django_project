@@ -13,6 +13,8 @@
                 <h3>{{ el.salary }}</h3>
                 <h5>{{ el.currency }}</h5>
                 <h2>{{ el.description }}</h2>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'update-summary' summary_id=el.id %}"><b>Изменить</b></a>
+                <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="{% url 'delete-summary' summary_id=el.id %}"><b>Удалить</b></a>
             </div>
         {% endfor %}
     {% else %}
