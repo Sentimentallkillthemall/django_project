@@ -2,10 +2,14 @@
 from django.shortcuts import render, redirect
 from django.views.generic import DetailView, UpdateView, DeleteView
 from .models import Vacancy, Summary
-from .forms import SummaryForm, VacancyForm
+from .forms import SummaryForm, VacancyForm, FilterVacancy
+
 def index(request):
     vacancies = Vacancy.objects.all()
     return render(request, 'main/index.html', {'title': 'Вакансии', 'vacancies': vacancies})
+
+def about_us(request):
+    return render(request, 'main/about_us.html')
 
 def update_vacancy(request, vacancy_id):
     error = ''
@@ -109,4 +113,15 @@ def create_summary(request):#не пон
         'error': error
     }
     return render(request, 'main/create_summary.html', context)
+
+def filter_by_salary(request):
+    form = FilterVacancy(request.POST)
+    parameter = FilterVacancy
+    filterd = Vacancy.objects.filter(salary__gte=parameter)
+    context = {
+        'title': f'Vacancies greater than {parameter}',
+        'vacancies': filterd,
+        'form': form
+    }
+    return render(request, 'main/index.html', filterd)
 

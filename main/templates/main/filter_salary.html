@@ -5,11 +5,10 @@
 {% endblock %}
 
 {% block content %}
-<h1><b>Свободные вакансии</b></h1> <!--для вывода из views нужно использовать цикл for и тегом <div> с классом -->
+<h1><b>Вакансии по фильтру:</b></h1> <!--для вывода из views нужно использовать цикл for и тегом <div> с классом -->
 <nav class="navbar navbar-light bg-body-tertiary">
     <div class="container-fluid">
-        <form class="d-flex input-group w-auto">
-
+        <form class="d-flex input-group w-auto" ,  , method="get">
             <input
                     type="text"
                     name="search"
@@ -18,7 +17,7 @@
                     aria-label="Search"
                     aria-describedby="search-addon"
             />
-            <button type="submit" class="btn btn-outline-success">Найти</button>
+            <button type="submit" class="btn btn-outline-success", action="{% url 'filter-salary' %}">Найти</button>
             <span class="input-group-text border-0" id="search-addon">
         <i class="fas fa-search"></i>
       </span>
@@ -40,6 +39,3 @@
 <p>У нас нету свободных вакансий</p>
 {% endif %}
 {% endblock %}
-
-
-

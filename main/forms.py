@@ -50,6 +50,20 @@ class SummaryForm(ModelForm):
                 'placeholder': 'Введите описание'
             }),
                    }
+class FilterVacancy(ModelForm):
+    class Meta:
+        model = Vacancy
+        fields = ["salary"]
+        widgets = {
+            "title": TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите название'
+
+            })
+        }
+
+
+# бд, питоновский кор, http протокол
 
 
 
